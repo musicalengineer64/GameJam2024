@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2dexciq004bu"]
+
+[ext_resource type="PackedScene" uid="uid://b0y7jdf5dkl4d" path="res://card_2d.tscn" id="1_1rh4g"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_wkj12"]
+viewport_path = NodePath("Card/SubViewport")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="Card" type="Sprite3D" parent="."]
+billboard = 1
+alpha_cut = 1
+texture_filter = 2
+texture = SubResource("ViewportTexture_wkj12")
+
+[node name="SubViewport" type="SubViewport" parent="Card"]
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(80, 120)
+
+[node name="Card2D" parent="Card/SubViewport" instance=ExtResource("1_1rh4g")]

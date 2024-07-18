@@ -1,0 +1,17 @@
+{
+	"card_name" : "Apple",
+	"card_art_path" : "icon.svg",
+	"reaction_group" : "test",
+	"effects" : [
+		{
+			"type" : "die",
+			"value" : 0,
+			"delay" : 3,
+			"depth_offset" : 0,
+			"light_minimum" : 100,
+			"light_maximum" : 100,
+			"invert_visibility" : false,
+			"requires_visibility" : false
+		}
+	]
+}
