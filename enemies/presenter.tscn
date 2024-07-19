@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://vo7eeghxk27u"]
+
+[ext_resource type="Script" path="res://Scripts/presenter.gd" id="1_vxx2s"]
+[ext_resource type="Texture2D" uid="uid://bhvnudmqk7dq7" path="res://Textures/background.png" id="2_7b8kj"]
+[ext_resource type="PackedScene" uid="uid://bp81yesvakllr" path="res://Scenes/enemy_sample.tscn" id="3_w4vmo"]
+[ext_resource type="Script" path="res://Scripts/DamageButton.gd" id="4_vhpxp"]
+
+[node name="presenter" type="Node2D"]
+script = ExtResource("1_vxx2s")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+scale = Vector2(30, 30)
+texture = ExtResource("2_7b8kj")
+polygon = PackedVector2Array(-0.4, -0.166667, 38.5667, -0.3, 38.5667, 21.6667, -0.2, 21.6667)
+
+[node name="EnemySample" parent="." instance=ExtResource("3_w4vmo")]
+position = Vector2(817, 364)
+
+[node name="DamageButton" type="Button" parent="."]
+offset_left = 278.0
+offset_top = 195.0
+offset_right = 409.0
+offset_bottom = 246.0
+text = "Damage Enemy"
+script = ExtResource("4_vhpxp")

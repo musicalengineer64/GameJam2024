@@ -1,0 +1,9 @@
+{
+	"enemy_name" : "string: placeholder",
+	"enemy_base_health" : 100,
+	"enemy_priorities" : {
+		"full_health": "steal",
+		"medium_health": "attack",
+		"low_health": "run"
+	}
+}
