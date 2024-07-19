@@ -2,23 +2,38 @@
 
 [ext_resource type="PackedScene" uid="uid://b0y7jdf5dkl4d" path="res://card_2d.tscn" id="1_1rh4g"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_wkj12"]
-viewport_path = NodePath("Card/SubViewport")
+[sub_resource type="Curve2D" id="Curve2D_civf1"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, -260, 0, 260, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 640, 0)
+}
+point_count = 3
 
 [node name="Node3D" type="Node3D"]
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+custom_minimum_size = Vector2(800, 260)
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Path2D" type="Path2D" parent="CanvasLayer/Control"]
+curve = SubResource("Curve2D_civf1")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="CanvasLayer/Control/Path2D"]
+position = Vector2(0, 260)
+rotation = -1.5708
+rotates = false
+
+[node name="Card2D" parent="CanvasLayer/Control/Path2D/PathFollow2D" instance=ExtResource("1_1rh4g")]
+rotation = 1.5708
+scale = Vector2(2, 2)
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
-
-[node name="Card" type="Sprite3D" parent="."]
-billboard = 1
-alpha_cut = 1
-texture_filter = 2
-texture = SubResource("ViewportTexture_wkj12")
-
-[node name="SubViewport" type="SubViewport" parent="Card"]
-transparent_bg = true
-canvas_item_default_texture_filter = 0
-size = Vector2i(80, 120)
-
-[node name="Card2D" parent="Card/SubViewport" instance=ExtResource("1_1rh4g")]

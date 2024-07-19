@@ -45,9 +45,5 @@ func updateFromJSON(json : JSON = load(jsonPath)): # Optionally takes JSON data 
 	else:
 		cardText.text = "No effect."
 	
-	
-	
-	
-	
 func _ready():
 	updateFromJSON()
