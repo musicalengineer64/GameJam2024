@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://de5xm5t0tl5ow"]
+
+[ext_resource type="PackedScene" uid="uid://b0y7jdf5dkl4d" path="res://scenes/card_2d.tscn" id="1_k4ybt"]
+
+[node name="UserInterfaceRoot" type="CanvasLayer"]
+
+[node name="Card2D" parent="." instance=ExtResource("1_k4ybt")]
+scale = Vector2(0.5, 0.5)
