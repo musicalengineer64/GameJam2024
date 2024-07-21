@@ -1,37 +1,39 @@
-extends Node2D
+extends Node
 
 @export var depth: int = 0 #how many cards are above this?
 @export_file("*.json") var jsonPath
-var effects
-var reaction_group
+var locked = false # A locked card cannot be moved by player action. If discarded, cannot be returned to deck until after combat ends.
+var carddata
+var reaction_group # Might not get implemented. When combined, depending on the other card's group, pulls a card of a group to the top of the deck.
 
 func tostr(val):
 	return val.to_string()
 
 func compare_effect(a,b):
 	if a.delay != b.delay: return a.delay < b.delay #earlier delays are visible first on the card
-	if a.value != b.value: return a.value > b.value #if delays are equal, favor biggest value first
+	if a.order != b.order: return a.order < b.order #lower order strings tie break first
+	if a.value != b.value: return a.value > b.value #biggest values tie break second
 	return a.type < b.type #sort alphabetically by effect type otherwise
 
 func is_effect_visible(effect):
 	return true #TODO: Implement light and depth logic here
 
-func setJSONPath(path):
+func updateFromJSONPath(path):
 	jsonPath = path
 	updateFromJSON()
+	
+func updateFromJSON(json : JSON = load(jsonPath)):
+	updateFromRaw(json.data)
 
-func updateFromJSON(json : JSON = load(jsonPath)): # Optionally takes JSON data directly. 
-	var data = json.data
-	# Each of these nodes can only occur once in a card.
-	var cardArtBorder = %CardArtBorder # controls card art visibility and border color
-	var cardArt = %CardArt # displays card art itself
-	var cardText = %CardText # displays card text; supports rich text and BBCode for in-line icons
+func updateFromRaw(data: Dictionary): # Optionally takes JSON data directly. Can also be used w/ carddata to refresh visibility checks.
+	carddata = data
+	%NameText.text = data.card_name
 	if ResourceLoader.exists(data.card_art_path):
-		cardArtBorder.visible = true
-		cardArt.texture = load(data.card_art_path) # card_art_path defines a card's art source
+		%CardArtBorder.visible = true
+		%CardArt.texture = load(data.card_art_path) # card_art_path defines a card's art source
 	else:
-		cardArtBorder.visible = false # Just use a nonexistent path, like "null", to disable the card art.
-	effects = data.effects # it's an array of dictionaries
+		%CardArtBorder.visible = false # Just use a nonexistent path, like "null", to disable the card art.
+	var effects = carddata.effects # it's an array of dictionaries
 	effects.sort_custom(compare_effect)
 	var text_template = "[img]effect_icons/effect_delay.png[/img] {delay} [img]effect_icons/effect_{type}.png[/img] {value}\n"
 	var card_text = ""
@@ -41,9 +43,6 @@ func updateFromJSON(json : JSON = load(jsonPath)): # Optionally takes JSON data 
 				effect.type = "blank" # use the placeholder for unimplemented effect icons
 			card_text = card_text + text_template.format(effect)
 	if card_text != "": # There's card text!
-		cardText.text = card_text
+		%CardText.text = card_text
 	else:
-		cardText.text = "No effect."
-	
-func _ready():
-	updateFromJSON()
+		%CardText.text = "No effect."

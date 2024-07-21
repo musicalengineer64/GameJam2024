@@ -4,9 +4,15 @@
 	"reaction_group" : "test",
 	"effects" : [
 		{
-			"type" : "die",
-			"value" : 0,
-			"delay" : 3,
+			"trigger" : "delay",
+			"order" : "a",
+			"value" : 3,
+			"effect" : 
+			{
+				"type" : "die",
+				"value" : 0,
+				"targetType" : "enemy"
+			},
 			"depth_offset" : 0,
 			"light_minimum" : 100,
 			"light_maximum" : 100,

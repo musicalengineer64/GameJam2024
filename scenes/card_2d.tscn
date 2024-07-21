@@ -1,25 +1,50 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0y7jdf5dkl4d"]
+[gd_scene load_steps=9 format=3 uid="uid://b0y7jdf5dkl4d"]
 
 [ext_resource type="Texture2D" uid="uid://c8nnn88lurckb" path="res://card_art/card_base_mini.png" id="1_d6xjp"]
 [ext_resource type="Script" path="res://scenes/scene_scripts/Card.gd" id="2_2d3d3"]
+[ext_resource type="Texture2D" uid="uid://c6arihwb5lnna" path="res://card_art/card_text_box.png" id="2_axrs3"]
 [ext_resource type="Texture2D" uid="uid://d4mmtxl3cfc2a" path="res://card_art/card_art_border.png" id="3_f4o20"]
+[ext_resource type="Texture2D" uid="uid://b1s8bv65jrud3" path="res://icon.svg" id="4_m1wvw"]
 [ext_resource type="FontFile" uid="uid://iyy8cl45k54y" path="res://fonts/m3x6.ttf" id="5_7x7d8"]
 
 [sub_resource type="FontVariation" id="FontVariation_wdb0b"]
 base_font = ExtResource("5_7x7d8")
 spacing_space = -3
-spacing_top = -4
+spacing_top = -3
 
-[node name="Card2D" type="Node2D"]
+[sub_resource type="FontVariation" id="FontVariation_2hxad"]
+base_font = ExtResource("5_7x7d8")
+spacing_space = -3
+spacing_top = -4
+spacing_bottom = -1
+
+[node name="Card2D" type="BoxContainer"]
 texture_filter = 1
 script = ExtResource("2_2d3d3")
 jsonPath = "res://cards/test.json"
 
-[node name="CardBase" type="Sprite2D" parent="."]
-texture = ExtResource("1_d6xjp")
-offset = Vector2(40, 60)
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+z_index = 1
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+texture = ExtResource("2_axrs3")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
 
-[node name="CardMargins" type="MarginContainer" parent="CardBase"]
+[node name="CardBase" type="TextureRect" parent="NinePatchRect"]
+unique_name_in_owner = true
+z_as_relative = false
+layout_mode = 2
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 84.0
+offset_bottom = 124.0
+texture = ExtResource("1_d6xjp")
+
+[node name="CardMargins" type="MarginContainer" parent="NinePatchRect/CardBase"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -30,12 +55,12 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="CardLayout" type="VBoxContainer" parent="CardBase/CardMargins"]
+[node name="CardLayout" type="VBoxContainer" parent="NinePatchRect/CardBase/CardMargins"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 2
 
-[node name="CardArtBorder" type="TextureRect" parent="CardBase/CardMargins/CardLayout"]
+[node name="CardArtBorder" type="TextureRect" parent="NinePatchRect/CardBase/CardMargins/CardLayout"]
 unique_name_in_owner = true
 visible = false
 z_index = 1
@@ -43,7 +68,7 @@ texture_filter = 1
 layout_mode = 2
 texture = ExtResource("3_f4o20")
 
-[node name="ArtBorderInset" type="MarginContainer" parent="CardBase/CardMargins/CardLayout/CardArtBorder"]
+[node name="ArtBorderInset" type="MarginContainer" parent="NinePatchRect/CardBase/CardMargins/CardLayout/CardArtBorder"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,16 +80,36 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="CardArt" type="TextureRect" parent="CardBase/CardMargins/CardLayout/CardArtBorder/ArtBorderInset"]
+[node name="CardArt" type="TextureRect" parent="NinePatchRect/CardBase/CardMargins/CardLayout/CardArtBorder/ArtBorderInset"]
 unique_name_in_owner = true
 z_index = -1
 layout_mode = 2
+texture = ExtResource("4_m1wvw")
 expand_mode = 2
 
-[node name="CardText" type="RichTextLabel" parent="CardBase/CardMargins/CardLayout"]
+[node name="CardText" type="RichTextLabel" parent="NinePatchRect/CardBase/CardMargins/CardLayout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/normal_font = SubResource("FontVariation_wdb0b")
 bbcode_enabled = true
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 4
+
+[node name="NameText" type="RichTextLabel" parent="NinePatchRect/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = SubResource("FontVariation_2hxad")
+fit_content = true
+scroll_active = false

@@ -1,8 +1,41 @@
-[gd_scene load_steps=2 format=3 uid="uid://de5xm5t0tl5ow"]
+[gd_scene load_steps=4 format=3 uid="uid://de5xm5t0tl5ow"]
 
 [ext_resource type="PackedScene" uid="uid://b0y7jdf5dkl4d" path="res://scenes/card_2d.tscn" id="1_k4ybt"]
+[ext_resource type="Script" path="res://scenes/Deck.gd" id="1_kgclx"]
+[ext_resource type="Script" path="res://scenes/Light.gd" id="3_vy7an"]
 
 [node name="UserInterfaceRoot" type="CanvasLayer"]
 
-[node name="Card2D" parent="." instance=ExtResource("1_k4ybt")]
-scale = Vector2(0.5, 0.5)
+[node name="Deck" type="Control" parent="." node_paths=PackedStringArray("deck")]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_kgclx")
+deck = [null]
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Deck"]
+clip_contents = false
+layout_mode = 0
+offset_right = 8.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardContainer" type="VBoxContainer" parent="Deck/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Card2D" parent="Deck/ScrollContainer/CardContainer" instance=ExtResource("1_k4ybt")]
+layout_mode = 2
+
+[node name="Card2D2" parent="Deck/ScrollContainer/CardContainer" instance=ExtResource("1_k4ybt")]
+layout_mode = 2
+
+[node name="Discard" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="LightIndicator" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_vy7an")
